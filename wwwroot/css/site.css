@@ -1,0 +1,26 @@
+body{
+     background-color: #ffcc00;
+}
+
+.panel-heading{
+     background-color: #4d4d4d!important;
+     color: white!important;
+     text-align:center!important;
+}
+
+.panel{
+     border-color: #4d4d4d;
+}
+
+.receipt{
+     background-color:#bfbfbf!important;
+}
+
+.error{
+     background-color:red!important;
+     color:white!important;
+}
+
+td{
+     padding-left: 10px;
+}

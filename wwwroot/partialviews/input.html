@@ -1,0 +1,66 @@
+<div class="row col-md-8 col-md-offset-2">
+          <div class="panel panel-default">
+               <div class="panel-heading">
+                    <h1>Taxi Journey Calculator</h1>
+               </div>
+               <div class="panel-body">
+                    <form name="journeyForm"> <!--Our complete input form with submit button-->
+                         <div class="row">
+                              <div class="form-group col-xs-6 col-xs-offset-3">
+                                   <label class="control-label">What date did the trip occur on: (dd/mm/yyyy)</label>
+                                   <input class="form-control" type="date" name="dateOrigin" ng-required="true" ng-model="dateOrigin" required>
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="form-group col-xs-6 col-xs-offset-3">
+                                   <label class="control-label">What time did the trip occur at: (hh:mm)</label>
+                                   <input class="form-control" type="time" name="timeOrigin"  ng-required="true" ng-model="timeOrigin" required >
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="form-group col-xs-6 col-xs-offset-3">
+                                   <label class="control-label">How far was travelled at below 6mph:</label>
+                                   <input class="form-control" type="number" min="0" step=".2" ng-required="true" name="slow" ng-model="slow" required>
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="form-group col-xs-6 col-xs-offset-3">
+                                   <label class="control-label">How long was spent travelling above 6mph:</label>
+                                   <input class="form-control" type="number" min="0" step="1" ng-required="true" name="fast" ng-model="fast" required>
+                              </div>
+                         </div>
+                         <div class="row">
+                              <div class="form-group col-xs-2 col-xs-offset-5">
+                                   <button class="btn btn-success" id="calculate" ng-disabled="journeyForm.$invalid" type="submit" ng-click="getCost()">Calculate</button>
+                              </div>
+                         </div>
+                    <form>
+               </div>
+               <div ng-switch="state">
+                    <div ng-switch-when="result" class="panel-footer receipt"> <!--If there is application is in "result" state, then the angular has the results of the previous journey calculator submission.-->
+                         <div class="row">
+                             <div class="col-xs-6 col-xs-offset-3">
+                                   <table>
+                                        <tr><td colspan="2" id ="dateValue">{{result.origin|date:"fullDate"}} at {{result.origin|date:"shortTime"}}</td></tr>
+
+                                       <tr><td>Base Fare:</td><td id="baseValue">{{"3"|currency}}</td></tr>
+                                       <tr><td>NY Tax:</td><td id="taxValue">{{.5|currency}}</td></tr>
+                                       <tr><td>Dist. Under 6mph:</td><td id="slowValue">{{5*0.35*result.slow|currency}}</td></tr>
+                                       <tr><td>Time Above 6mph:</td><td id="fastValue">{{0.35*result.fast|currency}}</td></tr>
+                                       <tr ng-if="result.nightCharge"><td>Late Night Surcharge:</td><td id="nightValue">{{0.5|currency}}</td></tr>
+                                       <tr ng-if="result.weekdayCharge"><td>Peak Weekday Surcharge:</td><td id="weekdayValue">{{1|currency}}</td></tr>
+                                       <tr><td><h3>Total Cost:</h3></td><td id="costValue"><h1>{{result.cost|currency}}</h1></td></tr>
+                                  </table>
+                             </div>
+                         </div>
+                    </div>
+                    <div ng-switch-when="error" class="panel-footer error"> <!--If we are in the "error" state, then the angular app couldnt resolve the promise to get info from the .net app-->
+                         <div class="row">
+                              <div class="col-xs-6 col-xs-offset-3">
+                                   <h2>Error - Could not connect with service.</h2>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+</div>
